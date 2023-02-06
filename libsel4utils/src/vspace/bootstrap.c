@@ -54,12 +54,14 @@ static void common_init_post_bootstrap(vspace_t *vspace, sel4utils_map_page_fn m
     sel4utils_alloc_data_t *data = get_alloc_data(vspace);
     /* reserve the kernel region, we do this by marking the
      * top level entry as RESERVED */
+    #ifndef CONFIG_ARCH_LOONGARCH
     if (!data->is_empty) {
         for (int i = TOP_LEVEL_INDEX(KERNEL_RESERVED_START);
              i < VSPACE_LEVEL_SIZE; i++) {
             data->top_level->table[i] = RESERVED;
         }
     }
+    #endif !CONFIG_ARCH_LOONGARCH
 
     data->map_page = map_page;
 

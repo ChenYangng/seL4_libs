@@ -129,6 +129,8 @@ static int load_segment(vspace_t *loadee_vspace, vspace_t *loader_vspace,
 #elif CONFIG_ARCH_RISCV
         /* Ensure that the writes to memory that may be executed become visible */
         asm volatile("fence.i" ::: "memory");
+#elif CONFIG_ARCH_LOONGARCH
+        asm volatile("ibar 0" ::: "memory");
 #endif
 
         /* now unmap the page in the loader address space */
@@ -444,10 +446,10 @@ static int elf_reserve_regions_in_vspace(vspace_t *loadee, const elf_t *elf_file
 static void *entry_point(const elf_t *elf_file)
 {
     uint64_t entry_point = elf_getEntryPoint(elf_file);
-    if ((uint32_t)(entry_point >> 32) != 0) {
-        ZF_LOGE("ERROR: this code hasn't been tested for 64bit!");
-        return NULL;
-    }
+    // if ((uint32_t)(entry_point >> 32) != 0) {
+    //     ZF_LOGE("ERROR: this code hasn't been tested for 64bit!");
+    //     return NULL;
+    // }
     assert(entry_point != 0);
     return (void *)(seL4_Word)entry_point;
 

@@ -27,7 +27,12 @@ static int _add_page(allocman_t *alloc, seL4_CPtr pd, void *vaddr)
         ZF_LOGV("Failed to allocate slot");
         return error;
     }
+#ifdef CONFIG_ARCH_LOONGARCH
+    frame_cookie = allocman_utspace_alloc(alloc, seL4_PageBits, seL4_ARCH_16KPage, &frame_path, true, &error);
+#else
     frame_cookie = allocman_utspace_alloc(alloc, seL4_PageBits, seL4_ARCH_4KPage, &frame_path, true, &error);
+#endif
+    
     if (error) {
         allocman_cspace_free(alloc, &frame_path);
         ZF_LOGV("Failed to allocate frame");

@@ -42,7 +42,7 @@ config_option(
 mark_as_advanced(LibSel4PlatSupportUseDebugPutChar LibSel4PlatSupportStart LibSel4SupportSel4Start)
 add_config_library(sel4platsupport "${configure_string}")
 
-if(KernelArchRiscV)
+if(KernelArchRiscV OR KernelArchLoongarch)
     set(kernel_arch arm)
 else()
     set(kernel_arch ${KernelArch})
