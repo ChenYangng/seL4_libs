@@ -5,13 +5,24 @@
  */
 #pragma once
 
+#include "kobject_t.h"
 #include <vka/vka.h>
 #include <vka/kobject_t.h>
 #include <utils/util.h>
 
+/*resource allocation interfaces for virtual machine extensions on LoongArch */
+#ifdef CONFIG_LOONGARCH_HYPERVISOR_SUPPORT
+static inline int vka_alloc_vcpu(vka_t *vka, vka_object_t *result)
+{
+    return vka_alloc_object(vka, seL4_LOONGARCH_VCPUObject, seL4_LOONGARCH_VCPUBits, result);
+}
+
+LEAKY(vcpu)
+#endif
+
 static inline int vka_alloc_vspace_root(vka_t *vka, vka_object_t *result)
 {
-    return vka_alloc_object(vka, kobject_get_type(KOBJECT_PAGE_TABLE, 0), seL4_PageTableBits, result);
+    return vka_alloc_object(vka, kobject_get_type(KOBJECT_PAGE_DIRECTORY, 0), seL4_PageDirBits, result);
 }
 
 
@@ -33,6 +44,10 @@ vka_arch_get_object_size(seL4_Word objectType)
 #endif
     case seL4_LOONGARCH_PageTableObject:
         return seL4_PageTableBits;
+#ifdef CONFIG_LOONGARCH_HYPERVISOR_SUPPORT
+    case seL4_LOONGARCH_VCPUObject:
+        return seL4_LOONGARCH_VCPUBits;
+#endif /* CONFIG_LOONGARCH_HYPERVISOR_SUPPORT */ 
 
     default:
          ZF_LOGE("Unknown object type %ld", (long)objectType);

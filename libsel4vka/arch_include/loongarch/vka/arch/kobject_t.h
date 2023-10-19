@@ -13,7 +13,7 @@
 
 #define seL4_PageDirBits seL4_PageTableBits
 
-enum _riscv_kobject_type {
+enum _loongarch_kobject_type {
     KOBJECT_PAGE_DIRECTORY,
     KOBJECT_PAGE_TABLE,
     KOBJECT_FRAME,
