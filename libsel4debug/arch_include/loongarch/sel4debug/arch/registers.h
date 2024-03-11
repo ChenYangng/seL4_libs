@@ -23,7 +23,7 @@ static UNUSED const char *register_names[] = {
     "s6",
     "s7",
     "s8",
-    "s9",
+    "fp",
 
     "a0",
     "a1",
@@ -63,7 +63,7 @@ compile_time_assert(sp_correct_position, offsetof(seL4_UserContext,  s5) ==  8 *
 compile_time_assert(sp_correct_position, offsetof(seL4_UserContext,  s6) ==  9 *  sizeof(seL4_Word));
 compile_time_assert(sp_correct_position, offsetof(seL4_UserContext,  s7) == 10 *  sizeof(seL4_Word));
 compile_time_assert(sp_correct_position, offsetof(seL4_UserContext,  s8) == 11 *  sizeof(seL4_Word));
-compile_time_assert(sp_correct_position, offsetof(seL4_UserContext,  s9) == 12 *  sizeof(seL4_Word));
+compile_time_assert(sp_correct_position, offsetof(seL4_UserContext,  fp) == 12 *  sizeof(seL4_Word));
 
 
 compile_time_assert(sp_correct_position, offsetof(seL4_UserContext,  a0) == 13 *  sizeof(seL4_Word));
